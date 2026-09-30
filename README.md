@@ -26,10 +26,14 @@ EN401/
 ├── README.md                          # Comprehensive documentation (this file)
 ├── .gitignore                         # Git exclusion rules
 │
-├── 📊 Executive Reports & Workbooks
-│   ├── OSeMOSYS_Handouts_Report.pdf   # Complete analysis of Handouts 1 to 6 & results
-│   ├── OSeMOSYS_Code_Explained.pdf    # In-depth GNU MathProg code & parameter guide
-│   └── OSeMOSYS_Results.xlsx          # 10-sheet master Excel workbook with cross-scenario data
+├── 📊 Executive Reports, Visual Atlases & Guides
+│   ├── RESULTS_AND_INPUTS_GRAPHS.md           # Visual atlas with embedded charts of all inputs & results
+│   ├── OSeMOSYS_Results_and_Inputs_Visualized.pdf # Full standalone PDF visual atlas
+│   ├── EXPLANATORY_GUIDE.md                   # In-depth repository architecture & methodology guide
+│   ├── EN401_Architecture_and_Methodology_Guide.pdf # Publication-quality methodology PDF
+│   ├── OSeMOSYS_Handouts_Report.pdf           # Complete analysis of Handouts 1 to 6 & results
+│   ├── OSeMOSYS_Code_Explained.pdf            # In-depth GNU MathProg code & parameter guide
+│   └── OSeMOSYS_Results.xlsx                  # 10-sheet master Excel workbook with cross-scenario data
 │
 ├── 📁 Model Scenarios & Solution Files
 │   ├── HO3/                           # Handout 3: Base Power System
