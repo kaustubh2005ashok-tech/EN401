@@ -1,20 +1,59 @@
 # EN401 — Energy Systems Modelling (OSeMOSYS)
 
-This repository contains the complete coursework, models, data files, analysis reports, and result workbooks for **EN401: Energy Systems Modelling**, implemented using **OSeMOSYS** (Open Source Energy Modelling System) and solved with **GLPK** (`glpsol`).
+This repository contains the complete academic research, optimization models, datasets, visual chart atlases, and result workbooks for **EN401: Energy Systems Modelling**, implemented using **OSeMOSYS** (Open Source Energy Modelling System) and solved with **GLPK** (`glpsol`).
 
 ---
 
-## 📚 Overview
+## 🧭 Visual Documentation & Report Hub (Markdown First)
 
-The coursework systematically develops a national / regional energy system planning model over a 15-year planning horizon (**2021–2035**). Starting from a simple single-technology power balance (Handouts 1–3), the model expands into a multi-technology, multi-fuel energy network incorporating renewables, sub-annual timeslices, capacity limits, and carbon emissions caps (Handouts 4–6).
+For immediate, interactive viewing directly on GitHub, the entire coursework and results are organized into dedicated **Markdown (`.md`)** documents:
 
-```
-   [Primary Fuels]               [Power Generation]              [Final Demand]
-   Coal Mining (MINCOA)   ───►  Coal Power Plant (COA001)  ──┐
-   Diesel Import (IMPDSL) ───►  Diesel Generator (DSL001)  ──┼──► Transmission ──► Electricity
-   Gas Import (MINNGS)    ───►  Gas Turbine (NGS001)       ──┤     Grid (TRN)      Demand (ED)
-   Solar Resource (SOL)   ───►  Solar PV (SOL001)          ──┤
-   Hydro Inflow (HYD)     ───►  Hydro Power (HYD001)       ──┘
+| Document | Format | Description |
+|---|---|---|
+| 📊 **[RESULTS_AND_INPUTS_GRAPHS.md](RESULTS_AND_INPUTS_GRAPHS.md)** | **Markdown (.md)** | Complete visual atlas with 13 embedded charts covering demand, costs, lifetimes, complexity, capacity additions, and seasonal dynamics. *(Companion PDF: [OSeMOSYS_Results_and_Inputs_Visualized.pdf](OSeMOSYS_Results_and_Inputs_Visualized.pdf))* |
+| 📑 **[HANDOUTS_REPORT.md](HANDOUTS_REPORT.md)** | **Markdown (.md)** | Comprehensive analytical report detailing problem formulations, engineering logic, and numerical results for Handouts 1 through 6. *(Companion PDF: [OSeMOSYS_Handouts_Report.pdf](OSeMOSYS_Handouts_Report.pdf))* |
+| 💻 **[CODE_EXPLAINED.md](CODE_EXPLAINED.md)** | **Markdown (.md)** | In-depth GNU MathProg coding manual, syntax patterns, runner architecture, and complete 17-parameter dictionary. *(Companion PDF: [OSeMOSYS_Code_Explained.pdf](OSeMOSYS_Code_Explained.pdf))* |
+| 🏛 **[EXPLANATORY_GUIDE.md](EXPLANATORY_GUIDE.md)** | **Markdown (.md)** | Repository architecture, version control strategy (`.gitignore`), and linear programming methodology guide. *(Companion PDF: [EN401_Architecture_and_Methodology_Guide.pdf](EN401_Architecture_and_Methodology_Guide.pdf))* |
+| 📗 **[OSeMOSYS_Results.xlsx](OSeMOSYS_Results.xlsx)** | **Excel (.xlsx)** | Master 10-sheet interactive workbook with cross-scenario comparison models, capacity addition matrices, and cost breakdowns. |
+
+---
+
+## 🔬 Reference Energy System (RES)
+
+```mermaid
+flowchart LR
+    subgraph Primary_Energy["Primary Energy Resources"]
+        MINBACK["Virtual Backstop Resource (MINBACK)"]
+        MINNGS["Natural Gas Mining (MINNGS)"]
+        IMPDSL["Diesel Imports (IMPDSL)"]
+        MINHYD["Hydro Inflow (MINHYD)"]
+        MINBIO["Biomass Feedstock (MINBIO)"]
+    end
+
+    subgraph Transformation["Power Generation Technologies"]
+        BACKSTOP["Virtual Penalty Generator (BACKSTOP)"]
+        PWRNGS["Gas Turbine (PWRNGS)"]
+        PWRDSL["Diesel Generator (PWRDSL)"]
+        PWRHYD["Hydro Power Plant (PWRHYD)"]
+        PWRBIO["Biomass Power Plant (PWRBIO)"]
+    end
+
+    subgraph Grid["Network Infrastructure"]
+        PWRTRN["High-Voltage Transmission (PWRTRN)"]
+        PWRDIST["Distribution Grid (PWRDIST)"]
+    end
+
+    subgraph Demand["Final Consumer Demand"]
+        ELC003["Electricity Demand (ELC003: 20 -> 90 PJ)"]
+    end
+
+    MINBACK --> BACKSTOP --> PWRTRN
+    MINNGS --> PWRNGS --> PWRTRN
+    IMPDSL --> PWRDSL --> PWRTRN
+    MINHYD --> PWRHYD --> PWRTRN
+    MINBIO --> PWRBIO --> PWRTRN
+
+    PWRTRN --> PWRDIST --> ELC003
 ```
 
 ---
@@ -23,100 +62,96 @@ The coursework systematically develops a national / regional energy system plann
 
 ```text
 EN401/
-├── README.md                          # Comprehensive documentation (this file)
-├── .gitignore                         # Git exclusion rules
+├── README.md                                    # Main navigation hub (this file)
+├── HANDOUTS_REPORT.md                           # Handouts 1 to 6 complete results analysis
+├── CODE_EXPLAINED.md                            # GNU MathProg code & parameter manual
+├── RESULTS_AND_INPUTS_GRAPHS.md                 # Visual atlas with 13 analytical charts
+├── EXPLANATORY_GUIDE.md                         # Repository architecture & methodology guide
+├── .gitignore                                   # Multi-tier exclusion rules
 │
-├── 📊 Executive Reports, Visual Atlases & Guides
-│   ├── RESULTS_AND_INPUTS_GRAPHS.md           # Visual atlas with embedded charts of all inputs & results
-│   ├── OSeMOSYS_Results_and_Inputs_Visualized.pdf # Full standalone PDF visual atlas
-│   ├── EXPLANATORY_GUIDE.md                   # In-depth repository architecture & methodology guide
-│   ├── EN401_Architecture_and_Methodology_Guide.pdf # Publication-quality methodology PDF
-│   ├── OSeMOSYS_Handouts_Report.pdf           # Complete analysis of Handouts 1 to 6 & results
-│   ├── OSeMOSYS_Code_Explained.pdf            # In-depth GNU MathProg code & parameter guide
-│   └── OSeMOSYS_Results.xlsx                  # 10-sheet master Excel workbook with cross-scenario data
+├── 📊 PDF & Spreadsheet Deliverables
+│   ├── OSeMOSYS_Results.xlsx                    # Master 10-sheet structured results workbook
+│   ├── OSeMOSYS_Results_and_Inputs_Visualized.pdf # Full visual PDF atlas
+│   ├── OSeMOSYS_Handouts_Report.pdf             # Formal analysis report
+│   ├── OSeMOSYS_Code_Explained.pdf              # MathProg code manual
+│   └── EN401_Architecture_and_Methodology_Guide.pdf # Methodology PDF
 │
-├── 📁 Model Scenarios & Solution Files
-│   ├── HO3/                           # Handout 3: Base Power System
-│   │   ├── Hands_on_3.pdf             # Handout specification
-│   │   ├── OSeHO3.dat                 # GLPK MathProg input data
-│   │   └── OSeHO3_solution.txt        # Full solver primal & dual solution
-│   ├── HO4/                           # Handout 4: Multi-Fuel Supply Chain
-│   │   ├── Hands_on_4.pdf
+├── 📁 Scenario Directories (Each with individual README.md)
+│   ├── HO3/                                     # Handout 3: Base Power System
+│   │   ├── README.md                            # Scenario documentation & results
+│   │   ├── OSeHO3.dat                           # GLPK MathProg input dataset
+│   │   ├── OSeHO3_solution.txt                  # Full solver output log
+│   │   └── Hands_on_3.pdf                       # Problem brief
+│   ├── HO4/                                     # Handout 4: Upstream Fuel Supply
+│   │   ├── README.md
 │   │   ├── OSeHO4.dat
-│   │   └── OSeHO4_solution.txt
-│   ├── HO5/                           # Handout 5: Timeslices & Renewable Integration
-│   │   ├── Hands_on_5.pdf
+│   │   ├── OSeHO4_solution.txt
+│   │   └── Hands_on_4.pdf
+│   ├── HO5/                                     # Handout 5: Thermal Generation Era
+│   │   ├── README.md
 │   │   ├── OSeHO5.dat
-│   │   └── OSeHO5_solution.txt
-│   └── HO6/                           # Handout 6: Emissions Accounting & Policy Limits
-│       ├── Hands_on_6.pdf
+│   │   ├── OSeHO5_solution.txt
+│   │   └── Hands_on_5.pdf
+│   └── HO6/                                     # Handout 6: Clean Energy Decarbonization
+│       ├── README.md
 │       ├── OSeHO6.dat
-│       └── OSeHO6_solution.txt
+│       ├── OSeHO6_solution.txt
+│       └── Hands_on_6.pdf
 │
-├── 📄 Original Course Handout Documents
-│   ├── Hands_on_1_UI_61d5976063.docx  # HO1: Energy modelling concepts & RES
-│   ├── Hands_on_2_UI_6b94c1a9ed.docx  # HO2: Energy chain data structure
-│   ├── Hands_on_3_UI_0cf2b81000.docx  # HO3: Base model implementation
-│   ├── Hands_on_4_UI_b813fa3c10.docx  # HO4: Fuel supply options
-│   ├── Hands_on_5_UI_784ea5778c.docx  # HO5: Renewables & timeslice variability
-│   └── Hands_on_6_UI_e272a90daf.docx  # HO6: Environmental constraints
+├── 🖼 graphs/                                   # 13 high-resolution 300 DPI analytical charts
+│   ├── graph_01_demand_trajectory.png
+│   ├── graph_02_capital_costs.png
+│   ├── graph_03_om_costs.png
+│   ├── graph_04_operational_life.png
+│   ├── graph_05_model_complexity.png
+│   ├── graph_06_npv_system_cost.png
+│   ├── graph_07_ho5_capacity_additions.png
+│   ├── graph_08_ho6_capacity_additions.png
+│   ├── graph_09_cumulative_capacity.png
+│   ├── graph_10_energy_portfolio_mix.png
+│   ├── graph_11_seasonal_timeslices_and_demand.png
+│   ├── graph_12_seasonal_hydro_capacity_factors.png
+│   └── graph_13_seasonal_dispatch_profile.png
 │
-└── 🖼 extracted_images/               # Reference diagrams & energy chain schematics
+├── 📄 Source Handout Assignment Files
+│   ├── Hands_on_1_UI_61d5976063.docx
+│   ├── Hands_on_2_UI_6b94c1a9ed.docx
+│   ├── Hands_on_3_UI_0cf2b81000.docx
+│   ├── Hands_on_4_UI_b813fa3c10.docx
+│   ├── Hands_on_5_UI_784ea5778c.docx
+│   └── Hands_on_6_UI_e272a90daf.docx
+│
+└── 🖼 extracted_images/                         # 68 original schematic and curve assets
 ```
 
 ---
 
-## 🔬 Summary of Handouts (HO1 – HO6)
+## 📈 Scenario Summary Matrix
 
-| Handout | Focus | Key Additions / Modifications | Objective Value (NPV) |
-|---|---|---|---|
-| **HO1 & HO2** | Conceptual Foundations | Reference Energy System (RES), sets, commodities, and units definition | *Formulation phase* |
-| **HO3** | Base Electricity System | Demand growth (1.05 PJ → 2.07 PJ), Coal (`COA001`), Hydro (`HYD001`), and Grid (`TRN`) | **$25,321.4M** |
-| **HO4** | Fuel Supply Network | Added Diesel import (`IMPDSL`) and Natural Gas mining (`MINNGS`); unconstrained supply | **$25,321.4M** (diesel/gas unchosen due to higher unit costs) |
-| **HO5** | Renewables & Timeslices | 8 seasonal/day-night timeslices, Solar PV (`SOL001`), Wind (`WND001`), capacity factor profiles | **$18,450.2M** |
-| **HO6** | Emissions Accounting | CO2 emission factors by fuel, carbon tax/penalty, emission caps | **$21,140.8M** |
-
----
-
-## 📈 Key Deliverables
-
-### 1. `OSeMOSYS_Handouts_Report.pdf`
-Comprehensive report detailing:
-- Mathematical formulation of linear programming in energy systems.
-- Step-by-step problem statements for each handout.
-- System cost evolution, technology selection, and carbon trajectory.
-- Economic and engineering insights explaining why specific technologies were deployed.
-
-### 2. `OSeMOSYS_Code_Explained.pdf`
-Exhaustive code walkthrough:
-- Parameter and variable taxonomy (sets, decision variables, parameters).
-- Core equations: Demand balance, capacity adequacy, investment constraints, and salvage value calculation.
-- GNU MathProg syntax patterns and GLPK execution flags.
-
-### 3. `OSeMOSYS_Results.xlsx`
-10-sheet structured workbook:
-- **Overview**: High-level KPI summary, cost comparisons, total installed capacity by milestone year.
-- **HO3 to HO6 Sheets**: Detailed scenario-specific capacity additions, generation profiles, and parameters.
-- **Capacity by Year**: Full multi-year capacity addition matrix (2021–2035).
-- **Cost Comparison**: Capital expenditure, fixed/variable O&M, fuel costs, and salvage breakdown.
-- **DAT File Excerpts**: Commented code snippets of `.dat` files for easy reference.
-- **Parameters Reference**: Comprehensive dictionary of all 17 OSeMOSYS parameters.
+| Metric / Handout | [HO3 (Base)](HO3/README.md) | [HO4 (Fuels)](HO4/README.md) | [HO5 (Thermal)](HO5/README.md) | [HO6 (Renewables)](HO6/README.md) |
+|---|---|---|---|---|
+| **Objective Value (NPV)** | $51,009,521.16 | $51,009,521.16 | **$19,335.91** | **$8,664.56** |
+| **Cost Delta vs. Previous** | Baseline | 0.0% | **-99.96%** | **-55.2%** |
+| **Dominant Technology** | Virtual `BACKSTOP` | Virtual `BACKSTOP` | `PWRNGS` (Gas) + `PWRDSL` (Diesel) | **`PWRHYD` (88% Hydro)** |
+| **Primary Resource** | Penalty Mining | Penalty Mining | Gas Mining + Diesel Imports | Water Inflow (`MINHYD`) |
+| **Timeslices** | 4 (Uniform) | 4 (Uniform) | 4 (Uniform) | **4 (Varying Hydrology)** |
+| **LP Constraints (Rows)** | 466 | 872 | 1,502 | 2,162 |
+| **LP Variables (Cols)** | 240 | 480 | 960 | 1,440 |
+| **Non-Zero Matrix Elements** | 2,160 | 4,320 | 8,640 | 12,960 |
+| **GLPK Solve Time** | < 0.05s | < 0.05s | < 0.08s | < 0.12s |
 
 ---
 
-## ⚙️ How to Reproduce & Solve
+## 🚀 How to Run & Reproduce
 
 ### Prerequisites
-- **GLPK (GNU Linear Programming Kit)**:
-  ```bash
-  # macOS (Homebrew)
-  brew install glpk
-  ```
-- **OSeMOSYS MathProg model file** (`osemosys_fast.txt` or `osemosys.txt`).
+Install GLPK (GNU Linear Programming Kit):
+```bash
+# macOS (Homebrew)
+brew install glpk
+```
 
-### Running a Scenario
-To solve any handout directly with GLPK:
-
+### Solving Any Scenario via Terminal
 ```bash
 # Handout 3
 glpsol -m path/to/osemosys_fast.txt -d HO3/OSeHO3.dat -o HO3/OSeHO3_solution.txt
