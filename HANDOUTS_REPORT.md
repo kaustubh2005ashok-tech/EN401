@@ -60,22 +60,48 @@ flowchart LR
 ### 1.1 Linear Programming Formulation
 OSeMOSYS operates as a deterministic bottom-up Linear Program (LP). The objective is to satisfy exogenous energy demand at minimum total discounted system cost over the 15-year planning horizon:
 
-$$\min \text{TotalDiscountedCost} = \sum_{y \in \text{YEAR}} \frac{\text{TotalAnnualCost}_{y}}{(1 + d)^{y - y_0}}$$
+$$
+\min \text{TotalDiscountedCost} = \sum_{y \in \text{YEAR}} \frac{\text{TotalAnnualCost}_{y}}{(1 + d)^{y - y_0}}
+$$
 
-Where $d = 0.10$ (10% social discount rate), $y_0 = 2021$, and $\text{TotalAnnualCost}_y$ aggregates:
-1. **Discounted Capital Investment Cost**: $\sum_{t} \text{CapitalCost}_{y,t} \times \text{NewCapacity}_{y,t}$
-2. **Discounted Fixed O&M Cost**: $\sum_{t} \text{FixedCost}_{y,t} \times \text{TotalCapacityAnnual}_{y,t}$
-3. **Discounted Variable O&M Cost**: $\sum_{t,m} \text{VariableCost}_{y,t,m} \times \text{AnnualActivity}_{y,t}$
-4. **Discounted Fuel & Mining Costs**: Upstream fuel supply expenditure
-5. **Minus Discounted Salvage Value**: Economic credit for assets outliving 2035
+Where:
+* $d = 0.10$ (10% social discount rate)
+* $y_0 = 2021$ (base year)
+* $\text{TotalAnnualCost}_y$ is the total undiscounted expenditure in year $y$:
+
+$$
+\text{TotalAnnualCost}_{y} = \sum_{t} \left( \text{CapitalCost}_{y,t} \cdot \text{NewCapacity}_{y,t} + \text{FixedCost}_{y,t} \cdot \text{TotalCapacityAnnual}_{y,t} \right) + \sum_{t,m} \text{VariableCost}_{y,t,m} \cdot \text{AnnualActivity}_{y,t} + \text{FuelCost}_{y} - \text{SalvageValue}_{y}
+$$
+
+**Cost Components Breakdown:**
+1. **Discounted Capital Investment Cost**: Capital expenditure for installing new capacity (`CapitalCost × NewCapacity`).
+2. **Discounted Fixed O&M Cost**: Recurring annual operations and maintenance per unit of installed capacity (`FixedCost × TotalCapacityAnnual`).
+3. **Discounted Variable O&M Cost**: Production expenses scaling with generation activity (`VariableCost × AnnualActivity`).
+4. **Discounted Fuel & Mining Costs**: Upstream resource extraction (`MINNGS`, `MINHYD`, `MINBIO`) and fuel imports (`IMPDSL`).
+5. **Minus Discounted Salvage Value**: Economic credit for assets whose operational lifetime extends beyond the 2035 horizon.
 
 ### 1.2 Core Energy Balances
-* **Demand Satisfaction**:
-  $$\sum_{m} \text{RateOfActivity}_{y,l,\text{PWRDIST},m} \times \text{OutputActivityRatio} \ge \text{RateOfDemand}_{y,l,\text{ELC003}}$$
-* **Capacity Adequacy**:
-  $$\text{RateOfActivity}_{y,l,t,m} \le \text{TotalCapacityAnnual}_{y,t} \times \text{CapacityFactor}_{y,t,l} \times \text{CapacityToActivityUnit}_{t}$$
-* **Cumulative Capacity Tracking**:
-  $$\text{TotalCapacityAnnual}_{y,t} = \text{ResidualCapacity}_{y,t} + \sum_{y' \le y, \, y - y' < \text{OperationalLife}_t} \text{NewCapacity}_{y',t}$$
+
+#### 1. Demand Satisfaction Constraint
+The distribution network (`PWRDIST`) must meet or exceed final consumer electricity demand (`ELC003`) in every timeslice ($l$) and year ($y$):
+
+$$
+\sum_{m} \text{RateOfActivity}_{y, l, \text{PWRDIST}, m} \cdot \text{OutputActivityRatio} \ge \text{RateOfDemand}_{y, l, \text{ELC003}}
+$$
+
+#### 2. Capacity Adequacy Constraint
+Generation activity from any technology in timeslice $l$ cannot exceed its active installed capacity adjusted for resource availability:
+
+$$
+\sum_{m} \text{RateOfActivity}_{y, l, t, m} \le \text{TotalCapacityAnnual}_{y, t} \cdot \text{CapacityFactor}_{y, t, l} \cdot \text{CapacityToActivityUnit}_{t}
+$$
+
+#### 3. Cumulative Capacity & Retirement Accounting
+Active capacity in year $y$ equals pre-existing residual capacity plus historical additions that remain within their operational lifespan:
+
+$$
+\text{TotalCapacityAnnual}_{y, t} = \text{ResidualCapacity}_{y, t} + \sum_{\substack{y' \le y \\ y - y' < \text{OperationalLife}_t}} \text{NewCapacity}_{y', t}
+$$
 
 ---
 

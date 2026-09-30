@@ -81,118 +81,130 @@ The repository contains rigorous `.gitignore` rules to prevent repository bloat 
 ### 3.1 Linear Programming Paradigm
 OSeMOSYS models the energy system as a cost-minimization Linear Program (LP). The objective is to identify the capacity expansion schedule and hourly/seasonal dispatch that satisfies exogenous energy demands at the lowest **Net Present Value (NPV)** of total system costs:
 
-$$\min \text{TotalDiscountedCost} = \sum_{y \in \text{YEAR}} \frac{\text{TotalAnnualCost}_{y}}{(1 + d)^{y - y_0}}$$
+$$
+\min \text{TotalDiscountedCost} = \sum_{y \in \text{YEAR}} \frac{\text{TotalAnnualCost}_{y}}{(1 + d)^{y - y_0}}
+$$
 
 Where:
-- $d$ is the social discount rate (typically 5% or 10%).
-- $y_0$ is the base year (2021).
-- $\text{TotalAnnualCost}_y$ aggregates four principal cost streams:
-  1. **Discounted Capital Investment Cost** ($\text{CapitalCost} \times \text{NewCapacity}$)
-  2. **Discounted Fixed Operating & Maintenance Cost** ($\text{FixedCost} \times \text{TotalCapacityAnnual}$)
-  3. **Discounted Variable Operating & Maintenance Cost** ($\text{VariableCost} \times \text{AnnualActivity}$)
-  4. **Discounted Fuel / Mining / Import Costs**
-  5. **Discounted Carbon Penalty / Emissions Taxes**
-  6. *Minus* **Discounted Salvage Value** for assets retaining economic life beyond the 2035 horizon.
+* $d = 0.10$ (social discount rate)
+* $y_0 = 2021$ (base year)
+* $\text{TotalAnnualCost}_y$ aggregates principal expenditure streams:
+  1. **Discounted Capital Investment Cost**: Capital expenditure for installing new capacity (`CapitalCost × NewCapacity`).
+  2. **Discounted Fixed O&M Cost**: Recurring operations & maintenance per unit of installed capacity (`FixedCost × TotalCapacityAnnual`).
+  3. **Discounted Variable O&M Cost**: Operational expenses scaling with generation activity (`VariableCost × AnnualActivity`).
+  4. **Discounted Fuel / Mining / Import Costs**: Upstream fuel procurement costs.
+  5. *Minus* **Discounted Salvage Value**: Economic credit for assets retaining operational life beyond 2035.
 
 ### 3.2 Reference Energy System (RES)
 The Reference Energy System defines the topology through which primary energy commodities are extracted or imported, transformed into secondary carriers, transmitted via distribution grids, and consumed as useful energy demands:
 
 ```
-[Primary Resources]          [Energy Conversion]            [Secondary/Final]
-MINCOA (Coal Mining)  ───►  COA001 (Coal Power Plant)  ──┐
-IMPDSL (Diesel Import) ───►  DSL001 (Diesel Generator)  ──┼──► TRN (Grid) ──► ED (Electricity Demand)
-MINNGS (Gas Import)   ───►  NGS001 (Gas Turbine)       ──┤
-HYD (Hydro Inflow)    ───►  HYD001 (Hydro Power Plant) ──┤
-SOL (Solar Radiation) ───►  SOL001 (Solar PV Array)    ──┘
+[Primary Resources]            [Power Generation]               [Network & Demand]
+MINBACK (Virtual Mining)  ───► BACKSTOP (Penalty Generator) ──┐
+MINNGS  (Gas Extraction)  ───► PWRNGS   (Gas Turbine)       ──┼──► PWRTRN ──► PWRDIST ──► ELC003
+IMPDSL  (Diesel Imports)  ───► PWRDSL   (Diesel Generator)  ──┤    (Grid)     (Dist)     (Demand)
+MINHYD  (Hydro Inflow)    ───► PWRHYD   (Hydro Plant)       ──┤
+MINBIO  (Biomass Source)  ───► PWRBIO   (Biomass Plant)     ──┘
 ```
 
 ### 3.3 Core Mathematical Balances
 
 #### 1. Demand Balance Constraint
 Energy delivered to the grid must meet or exceed final consumer demand in every timeslice ($l$) and year ($y$):
-$$\sum_{m} \text{RateOfActivity}_{y, l, \text{TRN}, m} \times \text{OutputActivityRatio}_{\text{TRN}, \text{ELC001}, m} \ge \text{RateOfDemand}_{y, l, \text{ELC001}}$$
+
+$$
+\sum_{m} \text{RateOfActivity}_{y, l, \text{PWRDIST}, m} \cdot \text{OutputActivityRatio} \ge \text{RateOfDemand}_{y, l, \text{ELC003}}
+$$
 
 #### 2. Capacity Adequacy Constraint
-The generation from any technology ($t$) in any timeslice ($l$) cannot exceed its operational installed capacity adjusted for resource availability and scheduled maintenance:
-$$\sum_{m} \text{RateOfActivity}_{y, l, t, m} \le \text{TotalCapacityAnnual}_{y, t} \times \text{CapacityFactor}_{y, t, l} \times \text{CapacityToActivityUnit}_{t}$$
+The generation from any technology ($t$) in any timeslice ($l$) cannot exceed its operational installed capacity adjusted for resource availability:
+
+$$
+\sum_{m} \text{RateOfActivity}_{y, l, t, m} \le \text{TotalCapacityAnnual}_{y, t} \cdot \text{CapacityFactor}_{y, t, l} \cdot \text{CapacityToActivityUnit}_{t}
+$$
 
 #### 3. Cumulative Capacity & Retirement Accounting
 Total available capacity in year $y$ equals unretired historical residual capacity plus capacity additions built up to year $y$:
-$$\text{TotalCapacityAnnual}_{y, t} = \text{ResidualCapacity}_{y, t} + \sum_{y' \le y, \, y - y' < \text{OperationalLife}_t} \text{NewCapacity}_{y', t}$$
+
+$$
+\text{TotalCapacityAnnual}_{y, t} = \text{ResidualCapacity}_{y, t} + \sum_{\substack{y' \le y \\ y - y' < \text{OperationalLife}_t}} \text{NewCapacity}_{y', t}
+$$
 
 #### 4. Salvage Value Formulation
 Capital assets whose operational lifespan ($L_t$) extends beyond the model horizon ($Y_{\text{end}} = 2035$) receive an economic salvage credit:
-$$\text{SalvageValue}_{y, t} = \text{CapitalCost}_{y, t} \times \text{NewCapacity}_{y, t} \times \frac{y + L_t - Y_{\text{end}}}{L_t}$$
+
+$$
+\text{SalvageValue}_{y, t} = \text{CapitalCost}_{y, t} \cdot \text{NewCapacity}_{y, t} \cdot \frac{y + L_t - Y_{\text{end}}}{L_t}
+$$
 
 ---
 
 ## 4. Scenario Progression & Handout Analysis (HO1 – HO6)
 
 ### 4.1 Handout 1 & 2: Structural & Relational Setup
-- **HO1 (Foundations)**: Established the spatial and temporal scope. Introduced key concepts of energy carriers, primary energy vs. final demand, and technology efficiency factors.
-- **HO2 (Data Structures)**: Defined quantitative activity ratios. Established standard units:
-  - Energy: **Petajoules (PJ)**
-  - Power / Capacity: **Gigawatts (GW)**
-  - Capital Cost: **Million USD per Gigawatt (M$/GW)**
-  - Conversion Factor: $1 \text{ GW} \cdot \text{year} = 31.536 \text{ PJ}$.
+* **HO1 (Foundations)**: Established the spatial and temporal scope. Introduced key concepts of energy carriers, primary energy vs. final demand, and technology efficiency factors.
+* **HO2 (Data Structures)**: Defined quantitative activity ratios. Established standard units:
+  * Energy: **Petajoules (PJ)**
+  * Power / Capacity: **Gigawatts (GW)**
+  * Capital Cost: **Million USD per Gigawatt (M$/GW)**
+  * Conversion Factor: $1 \text{ GW} \cdot \text{year} = 31.536 \text{ PJ}$.
 
 ### 4.2 Handout 3: The Base Electricity System
-- **Focus**: Initial operational model linking coal generation (`COA001`), run-of-river hydro (`HYD001`), and grid transmission (`TRN`).
-- **Demand Profile**: Electricity demand escalates monotonically from **1.05 PJ (2021)** to **2.07 PJ (2035)**.
-- **System Results**:
-  - Total Discounted Cost (NPV): **$25,321.4 Million USD**.
-  - Coal is prioritized over expensive hydro capital additions, but hydro operates at baseload capacity factors.
+* **Focus**: Initial operational model establishing demand growth (20.0 PJ $\rightarrow$ 90.0 PJ). Because no commercial generation is defined yet, virtual `BACKSTOP` ($99,999/kW) satisfies all demand.
+* **Demand Profile**: Electricity demand escalates monotonically from **20 PJ (2021)** to **90 PJ (2035)** (+5 PJ/year).
+* **System Results**:
+  * Total Discounted Cost (NPV): **$51,009,521.16**.
+  * Backstop capacity built every year to meet demand, totaling 3.43 GW by 2035.
 
-### 4.3 Handout 4: Fuel Supply Options & Economic Merit Order
-- **Focus**: Adding primary fuel extraction and import chains:
-  - Diesel imports (`IMPDSL`) supplying diesel generation (`DSL001`).
-  - Natural gas mining (`MINNGS`) supplying open-cycle gas turbines (`NGS001`).
-- **Key Insight**:
-  - Total System Cost remained exactly **$25,321.4 Million USD**.
-  - Neither diesel nor gas was deployed. The solver determined their combined levelized cost of electricity (LCOE) exceeded coal's amortized capital and fuel costs, demonstrating pure least-cost merit order behavior.
+### 4.3 Handout 4: Upstream Fuel Supply Options & Economic Merit Order
+* **Focus**: Adding primary fuel extraction and import chains:
+  * Diesel imports (`IMPDSL`) supplying diesel commodities (`DSL`).
+  * Natural gas mining (`MINNGS`) supplying raw gas (`NGS`).
+* **Key Insight**:
+  * Total System Cost remained exactly **$51,009,521.16** (0.0% change).
+  * Neither diesel nor gas was deployed because power conversion plants (gas turbines, diesel generators) were not yet available in the Reference Energy System to turn fuel into electricity.
 
-### 4.4 Handout 5: Renewable Integration & Sub-Annual Timeslices
-- **Focus**: Incorporating diurnal and seasonal variations. The year is segmented into **8 timeslices**:
-  - 4 Seasons: Autumn (FA), Winter (WI), Spring (SP), Summer (SU).
-  - 2 Diurnal Slices: Day (D) and Night (N).
-- **Technologies Added**: Utility-scale Solar PV (`SOL001`) and Wind generation (`WND001`), along with seasonal hydro inflows.
-- **System Results**:
-  - Total System Cost dropped to **$18,450.2 Million USD** — a massive **27.1% reduction ($6,871.2M saved)**.
-  - Solar PV generates heavily during daytime timeslices at zero variable fuel cost, displacing fossil fuel consumption during peak sun hours.
+### 4.4 Handout 5: Commercial Thermal Power Generation
+* **Focus**: Introducing commercial power conversion and network infrastructure:
+  * Diesel Power Plants (`PWRDSL`): $1,200/kW capital cost, $30/kW/yr fixed O&M.
+  * Gas Turbines (`PWRNGS`): $1,200/kW capital cost, $25/kW/yr fixed O&M.
+  * Transmission Lines (`PWRTRN`): $700/kW capital cost.
+  * Distribution Network (`PWRDIST`): $1,500/kW capital cost.
+* **System Results**:
+  * Total System Cost dropped to **$19,335.91** — a **99.96% cost reduction** as realistic thermal units completely displaced the penalty backstop generator.
+  * Natural gas mining scaled up to 53.7 PJ/yr in 2021 to supply baseload electricity.
 
-### 4.5 Handout 6: Emissions Accounting & Carbon Constraints
-- **Focus**: Environmental policy simulation. Explicit emission coefficients ($\text{kt } \text{CO}_2 / \text{PJ}$) assigned to fossil combustion.
-- **Policy Mechanisms**: Implementation of carbon emission taxes and hard annual emission ceilings.
-- **System Results**:
-  - Total System Cost rose to **$21,140.8 Million USD** (+14.6% vs. HO5).
-  - Coal generation is constrained by the carbon cap, forcing the model to invest earlier and more aggressively in Solar PV, Wind, and Hydro to satisfy demand while adhering to legal environmental limits.
+### 4.5 Handout 6: Clean Energy Decarbonization & Seasonality
+* **Focus**: Clean transition incorporating renewables and sub-annual seasonal variability across 4 timeslices (`RD`, `RN`, `DD`, `DN`):
+  * Hydro Power Plants (`PWRHYD`): $2,500/kW capital cost, 50-year operating life, zero fuel cost.
+  * Biomass Power Plants (`PWRBIO`): $1,800/kW capital cost, 25-year operating life.
+* **Policy & Seasonal Dynamics**:
+  * Hydro capacity factor drops from **65% in Rainy Season (`RD`, `RN`)** to **40% in Dry Season (`DD`, `DN`)** (-38.5% capacity reduction).
+* **System Results**:
+  * Total System Cost dropped to **$8,664.56** (**-55.2% reduction** vs. HO5).
+  * Clean hydro expands to 4.85 GW by 2035, delivering **88% of total generation**, with gas turbines operating as flexible peaking backup during the dry season.
 
 ### Cross-Scenario Quantitative Summary
 
-| Metric | HO3 (Base System) | HO4 (Fuel Chains) | HO5 (Renewables) | HO6 (CO2 Policy) |
+| Metric | HO3 (Base System) | HO4 (Fuel Chains) | HO5 (Thermal Era) | HO6 (Renewables) |
 |---|---|---|---|---|
-| **Objective Value (NPV)** | $25,321.4M | $25,321.4M | $18,450.2M | $21,140.8M |
-| **Cost Delta vs. Base** | 0.0% | 0.0% | **-27.1%** | **-16.5%** |
-| **Timeslices** | 1 (Annual) | 1 (Annual) | 8 (Seasonal/Diurnal) | 8 (Seasonal/Diurnal) |
-| **Leading Generation** | Coal (COA001) | Coal (COA001) | Solar PV + Coal | Solar PV + Hydro + Wind |
-| **Peak Installed Capacity** | 0.098 GW | 0.098 GW | 0.165 GW | 0.192 GW |
-| **Carbon Intensity** | Unconstrained | Unconstrained | Moderate | Heavily Constrained |
+| **Objective Value (NPV)** | $51,009,521.16 | $51,009,521.16 | **$19,335.91** | **$8,664.56** |
+| **Cost Delta vs. Previous** | Baseline | 0.0% | **-99.96%** | **-55.2%** |
+| **Timeslices** | 4 (RD, RN, DD, DN) | 4 (RD, RN, DD, DN) | 4 (RD, RN, DD, DN) | 4 (RD, RN, DD, DN) |
+| **Leading Generation** | Virtual `BACKSTOP` | Virtual `BACKSTOP` | Gas (`PWRNGS`) + Diesel (`PWRDSL`) | **Clean Hydro (`PWRHYD`, 88%)** |
+| **Peak Installed Capacity** | 3.43 GW | 3.43 GW | 2.80 GW | **4.85 GW** |
+| **Primary Fuel Source** | Virtual Penalty | Virtual Penalty | Gas Mining + Diesel Imports | Water Inflow (`MINHYD`) |
 
 ---
 
 ## 5. Overview of Generated Deliverables
 
-### 5.1 `OSeMOSYS_Results.xlsx` (Master Spreadsheet)
-A 10-worksheet workbook formatted with professional palettes and automated cross-referencing:
-1. **Overview**: Executive dashboard, key metrics, demand growth, and capacity additions.
-2. **HO3 Results**: Detailed capacity additions, generation profile, and activity parameters for Handout 3.
-3. **HO4 Results**: Parameter inputs for diesel/gas, showing economic non-deployment.
-4. **HO5 Results**: 8-timeslice capacity factor matrix, solar/hydro seasonal dispatch.
-5. **HO6 Results**: Carbon emissions trajectory, penalty accounting, and clean transition mix.
-6. **Capacity by Year**: Complete $15 \times N$ matrix of annual capacity additions (2021–2035).
-7. **Cost Comparison**: Comparative cost breakdown, capital investment vs. fuel vs. salvage value.
-8. **DAT File Excerpts**: Formatted MathProg code blocks with explanatory commentary.
-9. **Parameters Reference**: Comprehensive technical dictionary defining all 17 OSeMOSYS parameters.
+### 5.1 Master Spreadsheets & Interactive Markdown Atlases
+1. **[RESULTS_AND_INPUTS_GRAPHS.md](RESULTS_AND_INPUTS_GRAPHS.md)**: Interactive visual atlas with 13 embedded high-resolution charts.
+2. **[HANDOUTS_REPORT.md](HANDOUTS_REPORT.md)**: Full Markdown conversion of the Handouts 1 to 6 analytical report.
+3. **[CODE_EXPLAINED.md](CODE_EXPLAINED.md)**: GNU MathProg code guide with a 17-parameter dictionary.
+4. **[OSeMOSYS_Results.xlsx](OSeMOSYS_Results.xlsx)**: 10-sheet structured results workbook.
+
 
 ### 5.2 `OSeMOSYS_Handouts_Report.pdf`
 A formal 10-page executive and technical report presenting:

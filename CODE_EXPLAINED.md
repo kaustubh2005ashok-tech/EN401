@@ -56,15 +56,15 @@ The table below documents all 17 primary OSeMOSYS parameters configured across H
 | `OperationalLife` | `REGION, TECH` | Years | 1 | Physical/economic asset lifespan determining annual capital recovery and salvage value. |
 | `CapacityFactor` | `REGION, TECH, SLICE, YEAR` | Fraction | 1 | Maximum allowable generation rate as a fraction of installed capacity per timeslice. |
 | `AvailabilityFactor` | `REGION, TECH, YEAR` | Fraction | 1 | Annual upper bound on capacity availability taking scheduled maintenance and outages into account. |
-| `CapacityToActivityUnit` | `REGION, TECH` | Factor | 31.536 | Converts power capacity (GW) into energy activity (PJ/yr) over one full year: $1 \text{ GW} \times 8760\text{h} \times 3600\text{s} = 31.536 \text{ PJ}$. |
-| `InputActivityRatio` | `REGION, TECH, FUEL, MODE, YEAR` | Ratio | 0 | Commodity units consumed per unit of technology activity (determines plant thermal efficiency: $1/\text{Ratio}$). |
+| `CapacityToActivityUnit` | `REGION, TECH` | Factor | 31.536 | Converts power capacity (GW) into energy activity (PJ/yr) over one full year: 1 GW × 8,760 h × 3,600 s = 31.536 PJ. |
+| `InputActivityRatio` | `REGION, TECH, FUEL, MODE, YEAR` | Ratio | 0 | Commodity units consumed per unit of technology activity (determines plant thermal efficiency: `1 / Ratio`). |
 | `OutputActivityRatio` | `REGION, TECH, FUEL, MODE, YEAR` | Ratio | 0 | Commodity units produced per unit of technology activity (1.0 for single-product generator). |
 | `SpecifiedAnnualDemand` | `REGION, FUEL, YEAR` | PJ/yr | 0 | Total annual final consumer energy demand for fuel $f$ in year $y$. |
 | `SpecifiedDemandProfile`| `REGION, FUEL, SLICE, YEAR` | Fraction | 0 | Sub-annual distribution profile of demand across timeslices (sums to 1.0 over the year). |
 | `ResidualCapacity` | `REGION, TECH, YEAR` | GW | 0 | Existing pre-installed capacity inherited from past investments operating before the model horizon. |
-| `TotalAnnualMaxCapacity`| `REGION, TECH, YEAR` | GW | $\infty$ | Maximum cumulative installed capacity permissible due to physical, site, or grid constraints. |
-| `TotalTechnologyAnnualActivityUpperLimit` | `REGION, TECH, YEAR` | PJ/yr | $\infty$ | Maximum allowable annual throughput/activity (e.g., maximum fuel extraction ceiling). |
-| `EmissionActivityRatio`| `REGION, TECH, EMISSION, MODE, YEAR` | kt/PJ | 0 | Pollutant mass (e.g., kt $\text{CO}_2$) emitted per unit of operational activity. |
+| `TotalAnnualMaxCapacity`| `REGION, TECH, YEAR` | GW | ∞ | Maximum cumulative installed capacity permissible due to physical, site, or grid constraints. |
+| `TotalTechnologyAnnualActivityUpperLimit` | `REGION, TECH, YEAR` | PJ/yr | ∞ | Maximum allowable annual throughput/activity (e.g., maximum fuel extraction ceiling). |
+| `EmissionActivityRatio`| `REGION, TECH, EMISSION, MODE, YEAR` | kt/PJ | 0 | Pollutant mass (e.g., kt CO₂) emitted per unit of operational activity. |
 
 ---
 
