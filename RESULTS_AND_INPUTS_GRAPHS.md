@@ -150,6 +150,33 @@ The fundamental structural transformation between the fossil thermal system (HO5
 
 ---
 
+### 3.6 Seasonal & Timeslice Variations (Rainy vs. Dry Season)
+The model captures sub-annual temporal dynamics by disaggregating each year into four seasonal and diurnal timeslices:
+* **RD**: Rainy Season, Day (duration: 20.8% of year, demand: 25.0%)
+* **RN**: Rainy Season, Night (duration: 20.8% of year, demand: 20.0%)
+* **DD**: Dry Season, Day (duration: 29.2% of year, demand: 30.0% — **system peak demand**)
+* **DN**: Dry Season, Night (duration: 29.2% of year, demand: 25.0%)
+
+#### A. Seasonal Duration vs. Demand Allocation
+The annual macro calendar is divided into a 5-month Rainy Season (41.6% of year) and a 7-month Dry Season (58.4% of year):
+
+![Seasonal Demand](graphs/graph_11_seasonal_timeslices_and_demand.png)
+
+#### B. Seasonal Hydro Availability & Capacity Factors
+Hydro power (`PWRHYD`) exhibits strong seasonal variation based on monsoon hydrology:
+* **Rainy Season (`RD`, `RN`)**: High river inflow permits a **65% capacity factor**.
+* **Dry Season (`DD`, `DN`)**: Inflow restrictions cause hydro availability to drop to **40%** (a 38.5% capacity reduction).
+* Meanwhile, thermal gas turbines (`PWRNGS`) and diesel generators (`PWRDSL`) maintain constant dispatch availability (85% and 80% respectively) regardless of the season.
+
+![Seasonal Capacity Factors](graphs/graph_12_seasonal_hydro_capacity_factors.png)
+
+#### C. Operational Dispatch Under Seasonal Stress
+During the Rainy season, clean Hydro operates at maximum availability, supplying 100% of demand at zero fuel cost. During the Dry season, the water deficit forces thermal gas turbines (`PWRNGS`) to ramp up as a flexible peaking resource to bridge the energy deficit:
+
+![Seasonal Dispatch Balance](graphs/graph_13_seasonal_dispatch_profile.png)
+
+---
+
 ## 4. Summary Matrix
 
 | Metric / Parameter | HO3 (Base) | HO4 (Fuels) | HO5 (Thermal) | HO6 (Renewables) |
@@ -158,6 +185,8 @@ The fundamental structural transformation between the fossil thermal system (HO5
 | **Cost Delta vs. Previous** | — | 0.0% | **-99.96%** | **-55.2%** |
 | **Dominant Power Tech** | `BACKSTOP` | `BACKSTOP` | `PWRNGS` + `PWRDSL` | `PWRHYD` (88%) |
 | **Primary Fuel Source** | Penalty Mining | Penalty Mining | Gas Mining + Diesel Imports | Hydro Water Resource |
+| **Timeslices** | 4 (RD, RN, DD, DN) | 4 (RD, RN, DD, DN) | 4 (RD, RN, DD, DN) | 4 (RD, RN, DD, DN) |
 | **LP Dimensions (Rows × Cols)** | 466 × 240 | 872 × 480 | 1,502 × 960 | 2,162 × 1,440 |
 | **Non-Zero Elements** | 2,160 | 4,320 | 8,640 | 12,960 |
 | **Status** | Optimal | Optimal | Optimal | Optimal |
+
