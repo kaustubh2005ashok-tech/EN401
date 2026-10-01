@@ -76,27 +76,45 @@ EN401/
 │   ├── OSeMOSYS_Code_Explained.pdf              # MathProg code manual
 │   └── EN401_Architecture_and_Methodology_Guide.pdf # Methodology PDF
 │
-├── 📁 Scenario Directories (Each with individual README.md)
+├── 📁 Handout Directories (Each with dedicated README.md, RESULTS.md, and RESULTS.pdf)
+│   ├── HO1/                                     # Handout 1: Modelling Concepts & RES
+│   │   ├── README.md & RESULTS.md               # Scenario documentation & results
+│   │   ├── RESULTS.pdf                          # Standalone printable results report
+│   │   ├── Hands_on_1.pdf & .docx               # Assignment brief
+│   │   └── graphs/                              # Scenario charts
+│   ├── HO2/                                     # Handout 2: Energy Chain Data Structures
+│   │   ├── README.md & RESULTS.md
+│   │   ├── RESULTS.pdf
+│   │   ├── Hands_on_2.pdf & .docx
+│   │   └── graphs/
 │   ├── HO3/                                     # Handout 3: Base Power System
-│   │   ├── README.md                            # Scenario documentation & results
+│   │   ├── README.md & RESULTS.md               # Results with embedded charts
+│   │   ├── RESULTS.pdf                          # Standalone printable results report
 │   │   ├── OSeHO3.dat                           # GLPK MathProg input dataset
 │   │   ├── OSeHO3_solution.txt                  # Full solver output log
-│   │   └── Hands_on_3.pdf                       # Problem brief
+│   │   ├── Hands_on_3.pdf                       # Problem brief
+│   │   └── graphs/                              # Scenario charts
 │   ├── HO4/                                     # Handout 4: Upstream Fuel Supply
-│   │   ├── README.md
+│   │   ├── README.md & RESULTS.md
+│   │   ├── RESULTS.pdf
 │   │   ├── OSeHO4.dat
 │   │   ├── OSeHO4_solution.txt
-│   │   └── Hands_on_4.pdf
+│   │   ├── Hands_on_4.pdf
+│   │   └── graphs/
 │   ├── HO5/                                     # Handout 5: Thermal Generation Era
-│   │   ├── README.md
+│   │   ├── README.md & RESULTS.md
+│   │   ├── RESULTS.pdf
 │   │   ├── OSeHO5.dat
 │   │   ├── OSeHO5_solution.txt
-│   │   └── Hands_on_5.pdf
+│   │   ├── Hands_on_5.pdf
+│   │   └── graphs/
 │   └── HO6/                                     # Handout 6: Clean Energy Decarbonization
-│       ├── README.md
+│       ├── README.md & RESULTS.md
+│       ├── RESULTS.pdf
 │       ├── OSeHO6.dat
 │       ├── OSeHO6_solution.txt
-│       └── Hands_on_6.pdf
+│       ├── Hands_on_6.pdf
+│       └── graphs/
 │
 ├── 🖼 graphs/                                   # 13 high-resolution 300 DPI analytical charts
 │   ├── graph_01_demand_trajectory.png

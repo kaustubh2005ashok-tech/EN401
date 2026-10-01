@@ -33,9 +33,12 @@ Because no alternative power plants exist, `BACKSTOP` is built every year to mee
 ---
 
 ## 📁 Files in this Directory
-* **[OSeHO3.dat](file:///Users/kaustubhashok/SEM5%20pros/EN401/HO3/OSeHO3.dat)**: MathProg data file.
-* **[OSeHO3_solution.txt](file:///Users/kaustubhashok/SEM5%20pros/EN401/HO3/OSeHO3_solution.txt)**: Full GLPK primal and dual solution output.
-* **[Hands_on_3.pdf](file:///Users/kaustubhashok/SEM5%20pros/EN401/HO3/Hands_on_3.pdf)**: Assignment problem brief.
+* 📊 **[RESULTS.md](RESULTS.md)**: Interactive Markdown report with embedded result charts and full data tables.
+* 📄 **[RESULTS.pdf](RESULTS.pdf)**: Publication-grade standalone PDF results report for Handout 3.
+* 🖼 **[graphs/](graphs/)**: Dedicated scenario charts (demand met trajectory, cumulative backstop capacity).
+* **[OSeHO3.dat](OSeHO3.dat)**: MathProg data file.
+* **[OSeHO3_solution.txt](OSeHO3_solution.txt)**: Full GLPK primal and dual solution output.
+* **[Hands_on_3.pdf](Hands_on_3.pdf)**: Assignment problem brief.
 
 ---
 

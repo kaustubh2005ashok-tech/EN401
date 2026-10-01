@@ -30,9 +30,12 @@ Handout 6 simulates the clean energy transition by introducing renewable resourc
 ---
 
 ## 📁 Files in this Directory
-* **[OSeHO6.dat](file:///Users/kaustubhashok/SEM5%20pros/EN401/HO6/OSeHO6.dat)**: MathProg data file.
-* **[OSeHO6_solution.txt](file:///Users/kaustubhashok/SEM5%20pros/EN401/HO6/OSeHO6_solution.txt)**: Full GLPK primal and dual solution output.
-* **[Hands_on_6.pdf](file:///Users/kaustubhashok/SEM5%20pros/EN401/HO6/Hands_on_6.pdf)**: Assignment problem brief.
+* 📊 **[RESULTS.md](RESULTS.md)**: Interactive Markdown report with embedded result charts and full data tables.
+* 📄 **[RESULTS.pdf](RESULTS.pdf)**: Publication-grade standalone PDF results report for Handout 6.
+* 🖼 **[graphs/](graphs/)**: Dedicated scenario charts (hydro additions scaling, -55.2% cost savings).
+* **[OSeHO6.dat](OSeHO6.dat)**: MathProg data file.
+* **[OSeHO6_solution.txt](OSeHO6_solution.txt)**: Full GLPK primal and dual solution output.
+* **[Hands_on_6.pdf](Hands_on_6.pdf)**: Assignment problem brief.
 
 ---
 

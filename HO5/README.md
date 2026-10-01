@@ -33,9 +33,12 @@ Handout 5 completes the fossil power generation chain by introducing realistic c
 ---
 
 ## 📁 Files in this Directory
-* **[OSeHO5.dat](file:///Users/kaustubhashok/SEM5%20pros/EN401/HO5/OSeHO5.dat)**: MathProg data file.
-* **[OSeHO5_solution.txt](file:///Users/kaustubhashok/SEM5%20pros/EN401/HO5/OSeHO5_solution.txt)**: Full GLPK primal and dual solution output.
-* **[Hands_on_5.pdf](file:///Users/kaustubhashok/SEM5%20pros/EN401/HO5/Hands_on_5.pdf)**: Assignment problem brief.
+* 📊 **[RESULTS.md](RESULTS.md)**: Interactive Markdown report with embedded result charts and full data tables.
+* 📄 **[RESULTS.pdf](RESULTS.pdf)**: Publication-grade standalone PDF results report for Handout 5.
+* 🖼 **[graphs/](graphs/)**: Dedicated scenario charts (gas/diesel plant additions, 99.96% cost drop).
+* **[OSeHO5.dat](OSeHO5.dat)**: MathProg data file.
+* **[OSeHO5_solution.txt](OSeHO5_solution.txt)**: Full GLPK primal and dual solution output.
+* **[Hands_on_5.pdf](Hands_on_5.pdf)**: Assignment problem brief.
 
 ---
 
