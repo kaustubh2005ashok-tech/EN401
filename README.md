@@ -80,12 +80,12 @@ EN401/
 │   ├── HO1/                                     # Handout 1: Modelling Concepts & RES
 │   │   ├── README.md & RESULTS.md               # Scenario documentation & results
 │   │   ├── RESULTS.pdf                          # Standalone printable results report
-│   │   ├── Hands_on_1.pdf & .docx               # Assignment brief
+│   │   ├── Hands_on_1.pdf                       # Assignment brief
 │   │   └── graphs/                              # Scenario charts
 │   ├── HO2/                                     # Handout 2: Energy Chain Data Structures
 │   │   ├── README.md & RESULTS.md
 │   │   ├── RESULTS.pdf
-│   │   ├── Hands_on_2.pdf & .docx
+│   │   ├── Hands_on_2.pdf
 │   │   └── graphs/
 │   ├── HO3/                                     # Handout 3: Base Power System
 │   │   ├── README.md & RESULTS.md               # Results with embedded charts
@@ -131,13 +131,13 @@ EN401/
 │   ├── graph_12_seasonal_hydro_capacity_factors.png
 │   └── graph_13_seasonal_dispatch_profile.png
 │
-├── 📄 Course Handout Assignment Files (PDF & DOCX)
-│   ├── Hands_on_1_UI_61d5976063.pdf (and .docx) # HO1: Introduction & RES concepts
-│   ├── Hands_on_2_UI_6b94c1a9ed.pdf (and .docx) # HO2: Data structure & activity ratios
-│   ├── Hands_on_3_UI_0cf2b81000.pdf (and .docx) # HO3: Base electricity model
-│   ├── Hands_on_4_UI_b813fa3c10.pdf (and .docx) # HO4: Primary fuel supply chains
-│   ├── Hands_on_5_UI_784ea5778c.pdf (and .docx) # HO5: Commercial thermal generation
-│   └── Hands_on_6_UI_e272a90daf.pdf (and .docx) # HO6: Clean renewables & timeslices
+├── 📄 Course Handout Assignment Files (PDF)
+│   ├── Hands_on_1_UI_61d5976063.pdf (and Hands_on_1.pdf) # HO1: Introduction & RES concepts
+│   ├── Hands_on_2_UI_6b94c1a9ed.pdf (and Hands_on_2.pdf) # HO2: Data structure & activity ratios
+│   ├── Hands_on_3_UI_0cf2b81000.pdf                      # HO3: Base electricity model
+│   ├── Hands_on_4_UI_b813fa3c10.pdf                      # HO4: Primary fuel supply chains
+│   ├── Hands_on_5_UI_784ea5778c.pdf                      # HO5: Commercial thermal generation
+│   └── Hands_on_6_UI_e272a90daf.pdf                      # HO6: Clean renewables & timeslices
 │
 └── 🖼 extracted_images/                         # 68 original schematic and curve assets
 ```

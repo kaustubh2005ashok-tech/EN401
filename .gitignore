@@ -10,6 +10,7 @@ Thumbs.db
 # Office temporary files
 ~$*.docx
 ~$*.xlsx
+*.docx
 
 # Solver and scratch temporary files
 *.tmp

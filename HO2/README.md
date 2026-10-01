@@ -8,7 +8,6 @@ This directory contains the assignment brief, documentation, and relational defi
 * 📊 **[RESULTS.md](RESULTS.md)** — Interactive Markdown overview with plant conversion efficiencies.
 * 📄 **[RESULTS.pdf](RESULTS.pdf)** — Publication-grade PDF summary report.
 * 📄 **[Hands_on_2.pdf](Hands_on_2.pdf)** — Original assignment brief (PDF).
-* 📄 **[Hands_on_2.docx](Hands_on_2.docx)** — Original assignment brief (Word document).
 * 🖼 **[graphs/](graphs/)** — Technology conversion efficiencies and activity ratios chart.
 
 ---

@@ -8,7 +8,6 @@ This directory contains the assignment brief, documentation, and conceptual foun
 * 📊 **[RESULTS.md](RESULTS.md)** — Interactive Markdown overview with embedded technical units framework.
 * 📄 **[RESULTS.pdf](RESULTS.pdf)** — Publication-grade PDF summary report.
 * 📄 **[Hands_on_1.pdf](Hands_on_1.pdf)** — Original assignment brief (PDF).
-* 📄 **[Hands_on_1.docx](Hands_on_1.docx)** — Original assignment brief (Word document).
 * 🖼 **[graphs/](graphs/)** — Technical units conversion diagram.
 
 ---
