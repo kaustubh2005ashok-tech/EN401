@@ -113,13 +113,13 @@ EN401/
 │   ├── graph_12_seasonal_hydro_capacity_factors.png
 │   └── graph_13_seasonal_dispatch_profile.png
 │
-├── 📄 Source Handout Assignment Files
-│   ├── Hands_on_1_UI_61d5976063.docx
-│   ├── Hands_on_2_UI_6b94c1a9ed.docx
-│   ├── Hands_on_3_UI_0cf2b81000.docx
-│   ├── Hands_on_4_UI_b813fa3c10.docx
-│   ├── Hands_on_5_UI_784ea5778c.docx
-│   └── Hands_on_6_UI_e272a90daf.docx
+├── 📄 Course Handout Assignment Files (PDF & DOCX)
+│   ├── Hands_on_1_UI_61d5976063.pdf (and .docx) # HO1: Introduction & RES concepts
+│   ├── Hands_on_2_UI_6b94c1a9ed.pdf (and .docx) # HO2: Data structure & activity ratios
+│   ├── Hands_on_3_UI_0cf2b81000.pdf (and .docx) # HO3: Base electricity model
+│   ├── Hands_on_4_UI_b813fa3c10.pdf (and .docx) # HO4: Primary fuel supply chains
+│   ├── Hands_on_5_UI_784ea5778c.pdf (and .docx) # HO5: Commercial thermal generation
+│   └── Hands_on_6_UI_e272a90daf.pdf (and .docx) # HO6: Clean renewables & timeslices
 │
 └── 🖼 extracted_images/                         # 68 original schematic and curve assets
 ```
