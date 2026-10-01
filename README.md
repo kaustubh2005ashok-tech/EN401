@@ -76,43 +76,39 @@ EN401/
 │   ├── OSeMOSYS_Code_Explained.pdf              # MathProg code manual
 │   └── EN401_Architecture_and_Methodology_Guide.pdf # Methodology PDF
 │
-├── 📁 Handout Directories (Each with dedicated README.md, RESULTS.md, and RESULTS.pdf)
+├── 📁 Handout Directories (Each with dedicated README.md, unified RESULTS.md, and RESULTS.pdf)
 │   ├── HO1/                                     # Handout 1: Modelling Concepts & RES
-│   │   ├── README.md & RESULTS.md               # Scenario documentation & results
+│   │   ├── README.md & RESULTS.md               # Scenario documentation & structured data tables
 │   │   ├── RESULTS.pdf                          # Standalone printable results report
 │   │   ├── Hands_on_1.pdf                       # Assignment brief
 │   │   └── graphs/                              # Scenario charts
 │   ├── HO2/                                     # Handout 2: Energy Chain Data Structures
-│   │   ├── README.md & RESULTS.md
+│   │   ├── README.md & RESULTS.md               # Activity ratios, efficiencies & timeslices
 │   │   ├── RESULTS.pdf
 │   │   ├── Hands_on_2.pdf
 │   │   └── graphs/
 │   ├── HO3/                                     # Handout 3: Base Power System
-│   │   ├── README.md & RESULTS.md               # Results with embedded charts
+│   │   ├── README.md & RESULTS.md               # Unified results, visualized tables & full GLPK solver output
 │   │   ├── RESULTS.pdf                          # Standalone printable results report
 │   │   ├── OSeHO3.dat                           # GLPK MathProg input dataset
-│   │   ├── OSeHO3_solution.txt                  # Full solver output log
 │   │   ├── Hands_on_3.pdf                       # Problem brief
 │   │   └── graphs/                              # Scenario charts
 │   ├── HO4/                                     # Handout 4: Upstream Fuel Supply
-│   │   ├── README.md & RESULTS.md
+│   │   ├── README.md & RESULTS.md               # Unified results, merit order tables & full GLPK solver output
 │   │   ├── RESULTS.pdf
 │   │   ├── OSeHO4.dat
-│   │   ├── OSeHO4_solution.txt
 │   │   ├── Hands_on_4.pdf
 │   │   └── graphs/
 │   ├── HO5/                                     # Handout 5: Thermal Generation Era
-│   │   ├── README.md & RESULTS.md
+│   │   ├── README.md & RESULTS.md               # Unified results, capacity expansion tables & full GLPK solver output
 │   │   ├── RESULTS.pdf
 │   │   ├── OSeHO5.dat
-│   │   ├── OSeHO5_solution.txt
 │   │   ├── Hands_on_5.pdf
 │   │   └── graphs/
 │   └── HO6/                                     # Handout 6: Clean Energy Decarbonization
-│       ├── README.md & RESULTS.md
+│       ├── README.md & RESULTS.md               # Unified results, seasonal hydro tables & full GLPK solver output
 │       ├── RESULTS.pdf
 │       ├── OSeHO6.dat
-│       ├── OSeHO6_solution.txt
 │       ├── Hands_on_6.pdf
 │       └── graphs/
 │

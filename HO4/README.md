@@ -27,11 +27,10 @@ Although `MINNGS` and `IMPDSL` were available at low extraction costs, the model
 ---
 
 ## 📁 Files in this Directory
-* 📊 **[RESULTS.md](RESULTS.md)**: Interactive Markdown report with embedded result charts and full data tables.
+* 📊 **[RESULTS.md](RESULTS.md)**: Unified interactive report containing executive summary, visualized result charts, complete multi-year data tables, and the full verbatim GLPK solver solution output.
 * 📄 **[RESULTS.pdf](RESULTS.pdf)**: Publication-grade standalone PDF results report for Handout 4.
 * 🖼 **[graphs/](graphs/)**: Dedicated scenario charts (cost invariance analysis vs. HO3).
 * **[OSeHO4.dat](OSeHO4.dat)**: MathProg data file.
-* **[OSeHO4_solution.txt](OSeHO4_solution.txt)**: Full GLPK primal and dual solution output.
 * **[Hands_on_4.pdf](Hands_on_4.pdf)**: Assignment problem brief.
 
 ---
